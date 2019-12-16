@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+require("@babel/polyfill")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
