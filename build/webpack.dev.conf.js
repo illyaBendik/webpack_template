@@ -9,15 +9,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     contentBase: baseWebpackConfig.externals.paths.dist,
     historyApiFallback: true,
     port: 8081,
-    overlay: true,
+    overlay: true
   },
   plugins: [
     new webpack.SourceMapDevToolPlugin({
-      filename: '[file].map',
-    }),
-  ],
+      filename: '[file].map'
+    })
+  ]
 });
 
-module.exports = new Promise((resolve) => {
+module.exports = new Promise(resolve => {
   resolve(devWebpackConfig);
 });
