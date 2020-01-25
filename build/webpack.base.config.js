@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const TerserPlugin = require('terser-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const PATHS = {
     src:path.resolve(__dirname,'../src'),
@@ -37,8 +39,13 @@ module.exports = {
         runtimeChunk: 'single',
         splitChunks: {
             chunks: 'all',
-            maxInitialRequests: Infinity,
-            minSize: 0,
+            minSize: 30000,
+            maxSize: 0,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '~',
+            automaticNameMaxLength: 30,
             cacheGroups: {
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
@@ -46,9 +53,21 @@ module.exports = {
                         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
                         return `npm.${packageName.replace('@', '')}`;
                     },
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
                 }
-            },
+            }
         },
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+              cache: true,
+              parallel: true,
+            }),
+        ],
     },
     module:{
         rules:[
@@ -117,6 +136,21 @@ module.exports = {
         ]
     },
     plugins:[
+        new HardSourceWebpackPlugin({
+            cacheDirectory:'node_modules/.cache/hard-source/[confighash]',
+            configHash: function(webpackConfig) {
+                return require('node-object-hash')({sort: false}).hash(webpackConfig);
+            },
+            cachePrune: {
+                maxAge: 2 * 24 * 60 * 60 * 1000,
+                sizeThreshold: 50 * 1024 * 1024
+            },
+        }),
+        new HardSourceWebpackPlugin.ExcludeModulePlugin([
+            {
+              test: /mini-css-extract-plugin[\\/]dist[\\/]loader/,
+            },
+          ]),
         new webpack.HashedModuleIdsPlugin(),
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
