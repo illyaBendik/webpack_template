@@ -1,2 +1,2 @@
-const add = (a,b) => a+b
-console.log(add(3,4));
+const add = (a = 0, b) => a + b;
+add(5, 4);

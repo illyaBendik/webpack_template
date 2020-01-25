@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+import exmaple from './module/exmaple';
 
-import exmaple from './module/exmaple'
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-    module:{
-        exmaple
-    }
-})
+  module: {
+    exmaple,
+  },
+});
