@@ -74,7 +74,7 @@ const PATHS = {
 2. Import libs in `./index.js`
 ``` js
 // React example
-import React from 'react'
+import Vue from 'vue'
 // Bootstrap example
 import Bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
