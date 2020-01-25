@@ -8,7 +8,7 @@
     "build": "webpack --config ./build/webpack.build.conf.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "mocha-webpack -w --webpack-config ./build/webpack.base.config.js --require test/setup.js test/**/*.spec.js"
+    "test": "mocha-webpack -w --webpack-config ./build/webpack.base.conf.js --require test/setup.js test/**/*.spec.js"
   },
   "author": "Bendik Illya",
   "license": "MIT",
